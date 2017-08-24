@@ -8,6 +8,7 @@ var md_upload = multiparty({ uploadDir: './uploads/users' });
 
 /* GET users listing. */
 router.get('/', userController.getUsers);
+router.get('/get-image-file/:imageFile', userController.getImageFile);
 
 
 
@@ -15,7 +16,7 @@ router.get('/', userController.getUsers);
 /* POST users listing. */
 router.post('/register', userController.saveUser);
 router.post('/login', userController.login);
-router.post('/test-auth', md_auth.ensureAuth, userController.test_auth);
+router.post('/test-auth', md_auth.ensureAuth, userController.testAuth);
 router.post('/upload-image-user/:id', [md_auth.ensureAuth, md_upload], userController.uploadImage);
 
 /**

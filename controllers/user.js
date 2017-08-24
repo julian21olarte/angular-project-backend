@@ -3,6 +3,7 @@ var bcrypt = require('bcrypt');
 var userModel = require('../models/User');
 var jwt_service = require('../services/jwt');
 var fs = require('fs');
+var path = require('path');
 
 //get all users
 function getUsers(req, res) {
@@ -85,7 +86,7 @@ function login(req, res) {
 
 
 //Test token function
-function test_auth(req, res) {
+function testAuth(req, res) {
   res.status(200).send({
     message: 'Autenticacion correcta.',
     user: req.user
@@ -179,11 +180,28 @@ function uploadImage(req, res) {
 
 
 
+// get image file
+function getImageFile( req, res ) {
+  var imageFile = req.params.imageFile;
+  var path_file = './uploads/users/' + imageFile;
+
+  if( fs.existsSync(path_file) ) {
+    res.sendFile(path.resolve(path_file) );
+  }
+  else {
+    res.status(404).send({ message: 'La imagen no existe' });
+  }
+}
+
+
+
+
 module.exports = {
   getUsers,
   saveUser,
   login,
-  test_auth,
+  testAuth,
   updateUser,
-  uploadImage
+  uploadImage,
+  getImageFile
 }
